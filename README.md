@@ -23,12 +23,12 @@ Este proyecto ha sido probado con éxito para desplegar instancias
 
 Clona el repositorio
 ```
-git clone https:..
+git clone https://github.com/edssn/moodle-docker.git
 ```
 
 Ingresa en el directorio
 ```
-cd repo
+cd moodle-docker
 ```
 
 Construir imagenes
