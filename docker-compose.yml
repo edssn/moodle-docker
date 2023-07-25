@@ -5,13 +5,17 @@ networks:
   moodle-network:
     driver: bridge
 services:
+  common:
+    image: edissonsigua/almalinux8-php74
+    container_name: moodle-common
+    build: ./common
+    networks:
+      - moodle-network
   web:
     image: edissonsigua/moodle-web
     container_name: moodle-web
     restart: unless-stopped
-    bind:
-      context: nginx
-      dockerfile: ./nginx.Dockerfile
+    build: ./nginx
     depends_on:
     - db
     networks:
@@ -29,8 +33,9 @@ services:
     image: edissonsigua/moodle-php
     container_name: moodle-php
     restart: unless-stopped
+    build: ./php-fpm
     depends_on:
-    - db
+    - common
     environment:
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_HOST=${DATABASE_HOST}
@@ -47,8 +52,9 @@ services:
     image: edissonsigua/moodle-cron
     container_name: moodle-cron
     restart: unless-stopped
+    build: ./cron
     depends_on:
-    - db
+    - common
     networks:
       - moodle-network
     volumes:
